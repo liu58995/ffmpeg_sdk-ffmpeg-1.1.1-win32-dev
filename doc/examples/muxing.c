@@ -439,6 +439,10 @@ int main(int argc, char **argv)
 
     /* Now that all the parameters are set, we can open the audio and
      * video codecs and allocate the necessary encode buffers. */
+
+    video_codec = NULL; 
+    audio_codec = NULL;
+
     if (video_st)
         open_video(oc, video_codec, video_st);
     if (audio_st)

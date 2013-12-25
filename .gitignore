@@ -1,0 +1,26 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+
+# vs studio files
+doc/examples/prj/Debug/*
+*.tlog
+*.exe
+*.pdb
+*.lastbuildstate
+*.filters
+*.user
+*.sdf
+*.suo
+*.opensdf
+
