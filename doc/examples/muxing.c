@@ -38,8 +38,8 @@
 #include <libavformat/avformat.h>
 #include <libswscale/swscale.h>
 
-/* 5 seconds stream duration */
-#define STREAM_DURATION   200.0
+
+#define STREAM_DURATION   200.0   //200 seconds duration
 #define STREAM_FRAME_RATE 25 /* 25 images/s */
 #define STREAM_NB_FRAMES  ((int)(STREAM_DURATION * STREAM_FRAME_RATE))
 #define STREAM_PIX_FMT    AV_PIX_FMT_YUV420P /* default pix_fmt */
@@ -76,6 +76,7 @@ static AVStream *add_stream(AVFormatContext *oc, AVCodec **codec,
     st->id = oc->nb_streams-1;
     c = st->codec;
 
+    //fill in info to codec's conext
     switch ((*codec)->type) {
     case AVMEDIA_TYPE_AUDIO:
         st->id = 1;
@@ -125,7 +126,7 @@ static AVStream *add_stream(AVFormatContext *oc, AVCodec **codec,
 }
 
 /**************************************************************/
-/* audio output */
+/* audio output: generate the buffer for audio */
 
 static float t, tincr, tincr2;
 static int16_t *samples;
@@ -152,7 +153,7 @@ static void open_audio(AVFormatContext *oc, AVCodec *codec, AVStream *st)
     tincr2 = 2 * M_PI * 110.0 / c->sample_rate / c->sample_rate;
 
     if (c->codec->capabilities & CODEC_CAP_VARIABLE_FRAME_SIZE)
-        audio_input_frame_size = 10000;
+        audio_input_frame_size = 10000; 
     else
         audio_input_frame_size = c->frame_size;
     samples = av_malloc(audio_input_frame_size *
@@ -173,7 +174,7 @@ static void get_audio_frame(int16_t *samples, int frame_size, int nb_channels)
 
     q = samples;
     for (j = 0; j < frame_size; j++) {
-        v = (int)(sin(t) * 10000);
+        v = (int)(sin(t) * 10000); //totoal 16 bit signed
         for (i = 0; i < nb_channels; i++)
             *q++ = v;
         t     += tincr;
@@ -239,7 +240,7 @@ static void open_video(AVFormatContext *oc, AVCodec *codec, AVStream *st)
     int ret;
     AVCodecContext *c = st->codec;
 
-    /* open the codec */
+    /* open the codec, get the CodecConext */
     ret = avcodec_open2(c, codec, NULL);
     if (ret < 0) {
         fprintf(stderr, "Could not open video codec: %s\n", av_err2str(ret));
