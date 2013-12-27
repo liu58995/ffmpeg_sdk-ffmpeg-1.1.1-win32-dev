@@ -394,7 +394,7 @@ int main(int argc, char **argv)
     AVOutputFormat *fmt;
     AVFormatContext *oc;
     AVStream *audio_st, *video_st;
-    AVCodec *audio_codec, *video_codec;
+    AVCodec *audio_codec = NULL, *video_codec = NULL;
     double audio_pts, video_pts;
     int ret, i;
 
@@ -440,8 +440,7 @@ int main(int argc, char **argv)
     /* Now that all the parameters are set, we can open the audio and
      * video codecs and allocate the necessary encode buffers. */
 
-    video_codec = NULL; 
-    audio_codec = NULL;
+
 
     if (video_st)
         open_video(oc, video_codec, video_st);
